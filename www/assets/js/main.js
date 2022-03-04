@@ -1,20 +1,6 @@
-$(function() {
+$(function () {
   var viewer = new Cesium.Viewer('cesiumContainer', {
-    navigationHelpButton: false,
-    geocoder: false,
-    homeButton: false,
-    fullscreenButton: false,
-    targetFrameRate: 60,
-    baseLayerPicker: false,
-    resolutionScale: 2.0,
-    sceneModePicker: false,
-    animation: true,
-    contextOptions: {
-      scene3DOnly: true,
-      contextOptions: {
-        allowTextureFilterAnisotropic: true
-      }
-    }
+
   });
 
   var scene = viewer.scene;
@@ -27,10 +13,12 @@ $(function() {
   var czmlEventSource = new EventSource(czmlStreamUrl);
 
   // Listen for EventSource data coming
-  czmlEventSource.onmessage = function(e) {
+  czmlEventSource.onmessage = function (e) {
+    console.log(e.data);
     czmlStream.process(JSON.parse(e.data));
+    // Put the datasource into Cesium
+    viewer.dataSources.add(czmlStream);
   }
 
-  // Put the datasource into Cesium
-  viewer.dataSources.add(czmlStream);
+
 });
